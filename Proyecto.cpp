@@ -41,12 +41,28 @@ void Exposicion::mostrarTarea(){
 	cout<<"Tema: "<<tema<<endl;
 }
 
+//----------------------------------------------------
 
+class Informe : public Tarea{
+	private:
+		string formato;
+	public:
+		Informe(string,int,int,string);
+		void mostrarTarea();
+};
 
+Informe::Informe(string _curso,int _dia,int _mes, string _formato) : Tarea(_curso,_dia,_mes){
+	formato=_formato;
+}
+
+void Informe::mostrarTarea(){
+	Tarea::mostrarTarea();
+	cout<<"Formato: "<<formato<<endl;
+}
 
 
 int main(){
-	
+	Informe *z[100];
 	Exposicion *y[100];
 	Tarea *x[100];
 	int opcion;
@@ -63,7 +79,10 @@ int main(){
 		cout<<"4) Ver exposiciones pendientes"<<endl;
 		cout<<"5) Insertar nueva exposicion"<<endl;
 		cout<<"6) Eliminar exposicion"<<endl;
-		cout<<"7) Anotar fechas o datos importantes"<<endl;
+		cout<<"7) Ver informes pendientes"<<endl;
+		cout<<"8) Insertar nuevo informe"<<endl;
+		cout<<"9) Eliminar informe"<<endl;
+		cout<<"10) Anotar fechas o datos importantes"<<endl;
 		cout<<"0) Salir"<<endl<<endl;
 		cout<<"Elije una opcion: ";
 		cin>>opcion;
@@ -149,7 +168,75 @@ int main(){
 				y[conta++]= new Exposicion(g,f,v,t);
 				break;
 			}
+			case 6:{
+				if(conta==0){
+					cout<<"NO HAY EXPOSICIONES PARA ELIMINAR"<<endl;
+				}else{
+					int num;
+					cout<<"Ingresa el indice de la tarea que deseas eliminar: ";
+					cin>>num;
+					if(num>=0 and num<conta){
+						delete y[num];
+						for(int i=num;i<conta-1;i++){
+							y[i]=y[i+1];
+						}
+						conta--;
+						cout<<"EXPOSICION ELIMINADA EXITOSAMENTE"<<endl;
+					}
+				}
+				break;
+			}
 			case 7:{
+				if(contad==0){
+					cout<<"NO HAY INFORMES PENDIENTES...."<<endl;
+				}else{
+					for(int i=0;i<contad;i++){
+						cout<<"Informe "<<i<<": "<<endl;
+						z[i]->mostrarTarea();
+						cout<<"---------------------------------"<<endl;
+						
+					}
+				}
+				break;
+			}
+			case 8:{
+				string h;
+				string g;
+				int f;
+				int v;
+				
+				cout<<"Ingresa el nombre del curso: ";
+				cin>>g;
+				cout<<"Ingresa el dia de la fecha de entrega: ";
+				cin>>f;
+				cout<<"Ingresa el mes de la fecha de entrega: ";
+				cin>>v;
+				cout<<"Ingresa el formato del informe: ";
+				cin>>h;
+				
+				z[contad++]= new Informe(g,f,v,h);
+				
+				break;
+			}
+			case 9:{
+				if(contad==0){
+					cout<<"NO HAY INFORMES PARA ELIMINAR"<<endl;
+				}else{
+					int num;
+					cout<<"Ingresa el indice del informe que deseas eliminar: ";
+					cin>>num;
+					if(num>=0 and num<contad){
+						delete z[num];
+						for(int i=num;i<contad-1;i++){
+							z[i]=z[i+1];
+						}
+						contad--;
+						cout<<"INFORME ELIMINADO EXITOSAMENTE"<<endl;
+					}
+				}
+				break;
+			} 
+			case 10:{
 				ofstream archivo;
 				string apunte;
 				archivo.open("IMPORTANTE.txt",ios::app);
