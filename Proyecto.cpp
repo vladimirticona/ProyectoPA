@@ -9,6 +9,7 @@ class Tarea{
 	public:
 		Tarea(string,int,int);
 		virtual void mostrarTarea();
+		int mostrarMes();
 };
 
 Tarea::Tarea(string _curso,int _dia,int _mes){
@@ -22,6 +23,10 @@ void Tarea::mostrarTarea(){
 	cout<<"Fecha de entrega: "<<dia<<" / "<<mes<<" / 2024"<<endl;
 }
 
+int Tarea::mostrarMes(){
+	return mes;
+}
+
 //----------------------------------------------------
 
 class Exposicion : public Tarea{
@@ -30,6 +35,7 @@ class Exposicion : public Tarea{
 	public:
 		Exposicion(string,int,int,string);
 		void mostrarTarea();
+		
 };
 
 Exposicion::Exposicion(string _curso,int _dia,int _mes,string _tema) : Tarea(_curso,_dia,_mes){
@@ -41,6 +47,7 @@ void Exposicion::mostrarTarea(){
 	cout<<"Tema: "<<tema<<endl;
 }
 
+
 //----------------------------------------------------
 
 class Informe : public Tarea{
@@ -49,6 +56,7 @@ class Informe : public Tarea{
 	public:
 		Informe(string,int,int,string);
 		void mostrarTarea();
+		
 };
 
 Informe::Informe(string _curso,int _dia,int _mes, string _formato) : Tarea(_curso,_dia,_mes){
@@ -59,6 +67,8 @@ void Informe::mostrarTarea(){
 	Tarea::mostrarTarea();
 	cout<<"Formato: "<<formato<<endl;
 }
+
+//------------------------
 
 
 int main(){
@@ -75,14 +85,15 @@ int main(){
 		cout<<endl;
 		cout<<"1) Ver tareas pendientes"<<endl;
 		cout<<"2) Insertar nueva tarea"<<endl;
-		cout<<"3) Eliminar tarea"<<endl;
-		cout<<"4) Ver exposiciones pendientes"<<endl;
-		cout<<"5) Insertar nueva exposicion"<<endl;
-		cout<<"6) Eliminar exposicion"<<endl;
-		cout<<"7) Ver informes pendientes"<<endl;
-		cout<<"8) Insertar nuevo informe"<<endl;
-		cout<<"9) Eliminar informe"<<endl;
-		cout<<"10) Anotar fechas o datos importantes"<<endl;
+		cout<<"3) Que hago primero"<<endl;
+		cout<<"4) Eliminar tarea"<<endl<<endl;
+		cout<<"5) Ver exposiciones pendientes"<<endl;
+		cout<<"6) Insertar nueva exposicion"<<endl;
+		cout<<"7) Eliminar exposicion"<<endl<<endl;
+		cout<<"8) Ver informes pendientes"<<endl;
+		cout<<"9) Insertar nuevo informe"<<endl;
+		cout<<"10) Eliminar informe"<<endl<<endl;
+		cout<<"11) Anotar fechas o datos importantes"<<endl;
 		cout<<"0) Salir"<<endl<<endl;
 		cout<<"Elije una opcion: ";
 		cin>>opcion;
@@ -119,6 +130,26 @@ int main(){
 				break;
 			}
 			case 3:{
+				
+				for (int i = 1; i < cont; i++) {
+        			Tarea* auxTarea = x[i];
+        			int j = i - 1;
+        			while (j >= 0 && x[j]->mostrarMes() > auxTarea->mostrarMes()) {
+            			x[j + 1] = x[j];
+            			j--;
+        			}
+        			x[j + 1] = auxTarea;
+    				}
+
+    			cout << "Tareas ordenadas por mes:" << endl;
+    			for (int i = 0; i < cont; i++) {
+        			
+        			x[i]->mostrarTarea();
+        			cout << "---------------------------------" << endl;
+    				}
+				break;
+			}
+			case 4:{
 				if(cont==0){
 					cout<<"NO HAY TAREAS PARA ELIMINAR"<<endl;
 				}else{
@@ -136,7 +167,7 @@ int main(){
 				}
 				break;
 			}
-			case 4:{
+			case 5:{
 				if(conta==0){
 					cout<<"NO HAY EXPOSICIONES PENDIENTES...."<<endl;
 				}else{
@@ -150,7 +181,7 @@ int main(){
 				
 				break;
 			}
-			case 5:{
+			case 6:{
 				string t;
 				string g;
 				int f;
@@ -168,7 +199,7 @@ int main(){
 				y[conta++]= new Exposicion(g,f,v,t);
 				break;
 			}
-			case 6:{
+			case 7:{
 				if(conta==0){
 					cout<<"NO HAY EXPOSICIONES PARA ELIMINAR"<<endl;
 				}else{
@@ -186,7 +217,7 @@ int main(){
 				}
 				break;
 			}
-			case 7:{
+			case 8:{
 				if(contad==0){
 					cout<<"NO HAY INFORMES PENDIENTES...."<<endl;
 				}else{
@@ -199,7 +230,7 @@ int main(){
 				}
 				break;
 			}
-			case 8:{
+			case 9:{
 				string h;
 				string g;
 				int f;
@@ -218,7 +249,7 @@ int main(){
 				
 				break;
 			}
-			case 9:{
+			case 10:{
 				if(contad==0){
 					cout<<"NO HAY INFORMES PARA ELIMINAR"<<endl;
 				}else{
@@ -236,7 +267,7 @@ int main(){
 				}
 				break;
 			} 
-			case 10:{
+			case 11:{
 				ofstream archivo;
 				string apunte;
 				archivo.open("IMPORTANTE.txt",ios::app);
@@ -253,7 +284,7 @@ int main(){
 				break;
 			}
 			case 0:{
-				
+				cout<<"!!!!!NO OLVIDES REVISAR TUS APUNTES ANOTADOS!!!!!"<<endl;
 				break;
 			}
 			default:{
@@ -262,11 +293,7 @@ int main(){
 			}
 				
 		}
-		
-		
-		
 	}while(opcion!=0);
-	
 	
 	
 	return 0;
