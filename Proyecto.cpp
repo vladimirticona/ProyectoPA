@@ -24,15 +24,35 @@ void Tarea::mostrarTarea(){
 
 //----------------------------------------------------
 
+class Exposicion : public Tarea{
+	private:
+		string tema;
+	public:
+		Exposicion(string,int,int,string);
+		void mostrarTarea();
+};
+
+Exposicion::Exposicion(string _curso,int _dia,int _mes,string _tema) : Tarea(_curso,_dia,_mes){
+	tema=_tema;
+}
+
+void Exposicion::mostrarTarea(){
+	Tarea::mostrarTarea();
+	cout<<"Tema: "<<tema<<endl;
+}
 
 
 
 
 
 int main(){
+	
+	Exposicion *y[100];
 	Tarea *x[100];
 	int opcion;
 	int cont=0;
+	int conta=0;
+	int contad=0;
 	
 	do{
 		cout<<"----------BIENVENIDO AL ADMINISTRADOR DE TAREAS----------"<<endl;
@@ -40,7 +60,10 @@ int main(){
 		cout<<"1) Ver tareas pendientes"<<endl;
 		cout<<"2) Insertar nueva tarea"<<endl;
 		cout<<"3) Eliminar tarea"<<endl;
-		cout<<"4) Anotar fechas o datos importantes"<<endl;
+		cout<<"4) Ver exposiciones pendientes"<<endl;
+		cout<<"5) Insertar nueva exposicion"<<endl;
+		cout<<"6) Eliminar exposicion"<<endl;
+		cout<<"7) Anotar fechas o datos importantes"<<endl;
 		cout<<"0) Salir"<<endl<<endl;
 		cout<<"Elije una opcion: ";
 		cin>>opcion;
@@ -95,6 +118,38 @@ int main(){
 				break;
 			}
 			case 4:{
+				if(conta==0){
+					cout<<"NO HAY EXPOSICIONES PENDIENTES...."<<endl;
+				}else{
+					for(int i=0;i<conta;i++){
+						cout<<"Exposicion "<<i<<": "<<endl;
+						y[i]->mostrarTarea();
+						cout<<"---------------------------------"<<endl;
+						
+					}
+				}
+				
+				break;
+			}
+			case 5:{
+				string t;
+				string g;
+				int f;
+				int v;
+				
+				cout<<"Ingresa el nombre del curso: ";
+				cin>>g;
+				cout<<"Ingresa el dia de la fecha de entrega: ";
+				cin>>f;
+				cout<<"Ingresa el mes de la fecha de entrega: ";
+				cin>>v;
+				cout<<"Ingresa el tema de la exposicion: ";
+				cin>>t;
+				
+				y[conta++]= new Exposicion(g,f,v,t);
+				break;
+			}
+			case 7:{
 				ofstream archivo;
 				string apunte;
 				archivo.open("IMPORTANTE.txt",ios::app);
