@@ -1,5 +1,6 @@
 #include<bits/stdc++.h>
 #include<fstream>
+
 using namespace std;
 class Tarea{
 	private:
@@ -32,19 +33,25 @@ int Tarea::mostrarMes(){
 class Exposicion : public Tarea{
 	private:
 		string tema;
+		int numdiapos;
+		string modalidad;
 	public:
-		Exposicion(string,int,int,string);
+		Exposicion(string,int,int,string,int,string);
 		void mostrarTarea();
 		
 };
 
-Exposicion::Exposicion(string _curso,int _dia,int _mes,string _tema) : Tarea(_curso,_dia,_mes){
+Exposicion::Exposicion(string _curso,int _dia,int _mes,string _tema,int _numdiapos,string _modalidad) : Tarea(_curso,_dia,_mes){
 	tema=_tema;
+	numdiapos=_numdiapos;
+	modalidad=_modalidad;
 }
 
 void Exposicion::mostrarTarea(){
 	Tarea::mostrarTarea();
 	cout<<"Tema: "<<tema<<endl;
+	cout<<"Numero de diapositivas: "<<numdiapos<<endl;
+	cout<<"Modalidad: "<<modalidad<<endl;
 }
 
 
@@ -53,19 +60,22 @@ void Exposicion::mostrarTarea(){
 class Informe : public Tarea{
 	private:
 		string formato;
+		int paginas;
 	public:
-		Informe(string,int,int,string);
+		Informe(string,int,int,string,int);
 		void mostrarTarea();
 		
 };
 
-Informe::Informe(string _curso,int _dia,int _mes, string _formato) : Tarea(_curso,_dia,_mes){
+Informe::Informe(string _curso,int _dia,int _mes, string _formato,int _paginas) : Tarea(_curso,_dia,_mes){
 	formato=_formato;
+	paginas=_paginas;
 }
 
 void Informe::mostrarTarea(){
 	Tarea::mostrarTarea();
 	cout<<"Formato: "<<formato<<endl;
+	cout<<"Numero de paginas: "<<paginas<<endl;
 }
 
 //------------------------
@@ -73,18 +83,24 @@ void Informe::mostrarTarea(){
 class Examen : public Tarea{
 	private:
 		int cantidad;
+		string lugar;
+		string instrucciones;
 	public:
-		Examen(string,int,int,int);
+		Examen(string,int,int,int,string,string);
 		void mostrarTarea();
 };
 
-Examen::Examen(string _curso,int _dia,int _mes,int _cantidad) : Tarea(_curso,_dia,_mes){
+Examen::Examen(string _curso,int _dia,int _mes,int _cantidad,string _lugar,string _instrucciones) : Tarea(_curso,_dia,_mes){
 	cantidad=_cantidad;
+	lugar=_lugar;
+	instrucciones=_instrucciones;
 }
 
 void Examen::mostrarTarea(){
 	Tarea::mostrarTarea();
 	cout<<"Cantidad de preguntas: "<<cantidad<<endl;
+	cout<<"Lugar: "<<lugar<<endl;
+	cout<<"Instrucciones: "<<instrucciones<<endl;
 }
 
 
@@ -122,6 +138,7 @@ int main(){
 		cout<<"15) Que examen estudio primero"<<endl;
 		cout<<"16) Eliminar examen"<<endl<<endl;
 		cout<<"17) Anotar fechas o datos importantes"<<endl;
+		cout<<"18) Ver mis apuntes"<<endl;
 		cout<<"0) Salir"<<endl<<endl;
 		cout<<"Elije una opcion: ";
 		cin>>opcion;
@@ -214,6 +231,8 @@ int main(){
 				string g;
 				int f;
 				int v;
+				int nu;
+				string mo;
 				
 				cout<<"Ingresa el nombre del curso: ";
 				cin>>g;
@@ -223,8 +242,12 @@ int main(){
 				cin>>v;
 				cout<<"Ingresa el tema de la exposicion: ";
 				cin>>t;
+				cout<<"Ingresa el numero de diapositivas: ";
+				cin>>nu;
+				cout<<"Ingresa la modalidad: ";
+				cin>>mo;
 				
-				y[conta++]= new Exposicion(g,f,v,t);
+				y[conta++]= new Exposicion(g,f,v,t,nu,mo);
 				break;
 			}
 			case 7:{
@@ -282,6 +305,7 @@ int main(){
 				string g;
 				int f;
 				int v;
+				int pa;
 				
 				cout<<"Ingresa el nombre del curso: ";
 				cin>>g;
@@ -291,8 +315,10 @@ int main(){
 				cin>>v;
 				cout<<"Ingresa el formato del informe: ";
 				cin>>h;
+				cout<<"Ingresa la cantidad de paginas: ";
+				cin>>pa;
 				
-				z[contad++]= new Informe(g,f,v,h);
+				z[contad++]= new Informe(g,f,v,h,pa);
 				break;
 			}
 			case 11:{
@@ -350,6 +376,8 @@ int main(){
 				string g;
 				int f;
 				int v;
+				string lu;
+				string in;
 				
 				cout<<"Ingresa el nombre del curso: ";
 				cin>>g;
@@ -359,8 +387,13 @@ int main(){
 				cin>>v;
 				cout<<"Ingresa la cantidad de preguntas del examen: ";
 				cin>>o;
+				cout<<"Ingresa el lugar donde se dara el examen: ";
+				cin>>lu;
+				cin.ignore();
+				cout<<"Ingresa las instrucciones para el examen: ";
+				getline(cin,in);
 				
-				p[contado++]= new Examen(g,f,v,o);
+				p[contado++]= new Examen(g,f,v,o,lu,in);
 				
 				break;
 			}
@@ -414,6 +447,24 @@ int main(){
 					archivo<<apunte<<endl<<endl;
 					archivo.close();
 				}
+				
+				break;
+			}
+			case 18:{
+				ifstream archivo;
+				string texto;
+				archivo.open("IMPORTANTE.txt",ios::in);
+				
+				if(!archivo){
+					cout<<"ERROR"<<endl;
+				}else{
+					while(!archivo.eof()){
+						getline(archivo,texto);
+						cout<<texto<<endl;
+					}
+				}
+				
+				archivo.close();
 				
 				break;
 			}
